@@ -16,8 +16,7 @@ Data are not included in this repository.
 - Python ≥ 3.10: `pip install -r requirements.txt`
 - MATLAB (mutual-information analysis only), with
   [`mutualinformationx.m`](https://mikexcohen.com/book/) from M. X. Cohen,
-  *Analyzing Neural Time Series Data* (MIT Press, 2014) on the path. Optional:
-  [cmocean](https://github.com/chadagreene/cmocean) for the sensor-map colormap.
+  *Analyzing Neural Time Series Data* (MIT Press, 2014) on the path.
 
 ## Data layout
 
