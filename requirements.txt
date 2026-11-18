@@ -1,0 +1,5 @@
+mne>=1.7
+numpy
+scipy
+matplotlib
+h5io

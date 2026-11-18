@@ -1,0 +1,26 @@
+# data and derivatives - never commit
+*.fif
+*.flt
+*.hdr
+*.$$$
+*.mat
+*.npy
+*.npz
+*.hdf5
+*.csv
+*.ods
+*.odt
+
+# outputs
+results/
+figures/
+*.pdf
+*.png
+*.eps
+*.jpeg
+
+# editor / runtime
+__pycache__/
+.ipynb_checkpoints/
+*.asv
+.env
