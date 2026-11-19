@@ -12,8 +12,13 @@ slot = c.arrayGrid(c.sensorChannels);
 x = mod(slot - 1, 5);              % column 0-4
 y = 4 - floor((slot - 1) / 5);     % row, top = 4
 
+% Marker area proportional to 1/SD across participants (as published), rescaled so
+% the largest marker is MAX_AREA points^2 and neighbouring markers do not overlap.
+MAX_AREA = 2500;
+area = 1 ./ std(r.mi, [], 2)';
+area = MAX_AREA * area / max(area);
 figure;
-scatter(x, y, 1 ./ (std(r.mi, [], 2)' * 14^-3), mean(r.mi, 2)', 'filled');
+scatter(x, y, area, mean(r.mi, 2)', 'filled');
 caxis([0.5 1]);
 colorbar('eastoutside');
 if exist('cmocean', 'file'), colormap(cmocean('algae')); end

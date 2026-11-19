@@ -45,10 +45,11 @@ Run the Python scripts from `python/`. Results and figures go to `./results`
 | 2 | `preprocess.py --band 110 145` | evoked files (0.5–45 Hz, 75–145 Hz, 110–145 Hz, 130–145 Hz envelope) and 1 Hz high-pass epochs |
 | 3 | `compute_itc.py` | Morlet ITC and power, 110–170 Hz (20 log-spaced frequencies, n_cycles = f/10) |
 | 3b | `compute_itc.py --fmax 145 --n-freqs 10 --divisor 9 --tag 9cycles` | ITC 110–145 Hz, used by `fig_itc_grand_average.py` |
+| 3c | `compute_itc.py --fmax 300 --n-freqs 35 --divisor 15 --tag 15cycles6` | ITC 110–300 Hz (35 log-spaced frequencies, n_cycles = f/15, 7.3–20 cycles); Figure 5b with `fig_itc_grand_average.py --fmax 300 --tag 15cycles6` |
 | 4 | `itc_stats.py` | Group statistics on the ITC (Figure 5) |
 | 5 | `export_mat.py` | `.mat` files for MATLAB |
-| 6 | `matlab/mi_window.m`, `plot_mi_sensitivity_map.m` | MI between each sensor and the ERG, -10 to 120 ms (Figure 6a/b) |
-| 7 | `matlab/mi_itc_over_time.m` | MI of ITC time courses over time and frequency (Figure 6c) |
+| 6 | `matlab/mi_window.m`, `plot_mi_sensitivity_map.m` | MI between each sensor and the ERG, -10 to 120 ms (Figure 6) |
+| 7 | `matlab/mi_itc_over_time.m` | MI of ITC time courses over time and frequency (Figure 7) |
 | – | `matlab/mi_over_time.m` | MI of the evoked envelope in a sliding window (supplementary) |
 
 Figures: `fig_evoked_low.py` (Figure 2), `fig_evoked_high.py` (Figure 3B),
@@ -74,13 +75,18 @@ p-values are FDR-corrected over time.
 ### Mutual information
 
 Histogram-based MI between each sensor and the under-eye ERG, on the 130–145 Hz
-envelope of the evoked response, −10 to 120 ms. The bin count is the rounded
-mean of Freedman–Diaconis estimates. Significance is a z-score against
+envelope of the evoked response, −10 to 120 ms (131 samples). The bin count is the
+rounded mean of Freedman–Diaconis estimates. Significance is a z-score against
 surrogates in which the ERG bin sequence is split at a random point and its
 segments swapped/reversed (2000 permutations per participant, 5000 for the group).
-Figure 6c uses the same estimator on ITC time courses (4 bins, 1000 permutations,
-27-sample sliding window), with a rank-sum test across participants against the
-−50–0 ms baseline.
+The group result is the MI of the grand-average envelopes. The permutations are
+seeded (`mi_window(signal, seed)`, default seed 1), so Figure 6 is reproducible.
+
+Figure 7 uses the same estimator on ITC magnitude time courses (4 bins, 27-sample
+sliding window, 1 ms steps): MI in bits per participant, averaged over the nine
+participants and plotted from −10 to 120 ms. `mi_itc_over_time(nPermutations)` with
+nPermutations > 0 adds permutation statistics (rank-sum across participants against
+the −50–0 ms baseline, and the MI of the grand-average ITC); these are not in the paper.
 
 ## Channel indices
 

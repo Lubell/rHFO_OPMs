@@ -4,6 +4,7 @@ Computed on the unfiltered merged epochs. Frequencies are log-spaced and the
 number of cycles scales with frequency: n_cycles = freqs / cycle_divisor.
 Defaults give the files used in itc_stats.py (<pid>_itc_110_170_10_perBand.hdf5).
 The older 110-145 Hz files used --fmax 145 --n-freqs 10 --divisor 9 --tag 9cycles.
+Figure 5b (110-300 Hz): --fmax 300 --n-freqs 35 --divisor 15 --tag 15cycles6.
 
 Usage: python compute_itc.py [--fmin 110 --fmax 170 --n-freqs 20 --divisor 10 --tag 10_perBand]
 """
