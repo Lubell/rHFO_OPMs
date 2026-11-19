@@ -43,7 +43,10 @@ GRID_POS = [10, 8, 15, 7, 6, 2, 3, 9, 4, 13, 14, 19, 18, 17, 11, 16]
 
 # ---------------------------------------------------------------- epoching
 EPOCH_TMIN, EPOCH_TMAX = -0.2, 0.3
-N_SKIP_EPOCHS = 10       # first 10 flashes of every run are discarded
+# The first 10 flashes of every run are discarded before visual artifact rejection.
+# This step is not described in the Paper III Methods (author decision, 2026-11-19);
+# the trial counts reported there are counted after it.
+N_SKIP_EPOCHS = 10
 MIN_EVENT_DURATION = 0.001
 
 LOW_BAND = (0.5, 45.0)   # a-/b-wave

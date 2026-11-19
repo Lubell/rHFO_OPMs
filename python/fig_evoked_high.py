@@ -1,4 +1,9 @@
-"""Figure 3B: grand-average oscillatory potentials (75-145 Hz), every OPM with the ERG overlaid."""
+"""Figure 3B: grand-average oscillatory potentials (75-145 Hz), every OPM with the ERG overlaid.
+
+Each OPM is drawn at its position in the mounted array (config.GRID_POS, as in the
+ITC figures) and titled with its sensor label. The published figure filled the
+panels in channel order, so 13 of the 14 OPMs appeared at another sensor's position.
+"""
 
 import argparse
 from pathlib import Path
@@ -9,10 +14,11 @@ import mne
 import config as cfg
 from loading import read_evoked
 
-# Free subplot slots of the 4 x 5 grid, filled with OPM 0..13 in order (as in the published figure).
-# Note this is not the mounted-array layout (config.GRID_POS) used in the other sensor-grid figures.
-SLOTS = [1, 2, 3, 5, 6, 7, 8, 9, 12, 13, 14, 16, 17, 18]
-FLIPPED = range(1, 11)          # OPM polarity flipped for display
+# Subplot slot (0-based, 4 x 5 grid) of each OPM channel: its position in the mounted array.
+# Same set of slots as the published figure (which used [1, 2, 3, 5, ..., 18] in channel order).
+SLOTS = [cfg.GRID_POS[ch] - 1 for ch in range(cfg.N_OPM)]
+FLIPPED = range(1, 11)          # channel indices whose polarity is flipped for display
+                                # (sensor labels 1-7 and 9-11, as in the published figure)
 WINDOW = slice(100, 300)        # -100 to 99 ms
 
 if __name__ == "__main__":
@@ -33,6 +39,7 @@ if __name__ == "__main__":
         ax = axs.flat[slot]
         ax.axis("on")
         sign = -1 if opm in FLIPPED else 1
+        ax.set_title(f"OPM {cfg.SENSOR_LABELS[opm]}" + (" (inverted)" if sign < 0 else ""), fontsize=10)
         ax.plot(t, erg, color="blue", label="ERG")
         ax.plot(t, sign * ga.data[opm, WINDOW] * 1e15, color="orange", label="OPM (fT)")
         ax.axvline(0, color="k", linestyle="--", linewidth=0.5)

@@ -88,6 +88,7 @@ for ch = 1:nC
     subplot(4, 5, c.arrayGrid(ch));
     contourf(r.group.times, r.freqs, squeeze(r.group.z(ch, :, :)), 40, 'linecolor', 'none');
     set(gca, 'yscale', 'log', 'ytick', round(r.freqs));
+    title(panel_title(c.sensorLabels{ch}));
 end
 figure('Name', 'ITC MI of grand average, FDR p');
 show = tga <= 0;  % original plot: -150 to 0 ms (first 151 samples)
@@ -95,5 +96,11 @@ for ch = 1:nC
     subplot(4, 5, c.arrayGrid(ch));
     contourf(tga(show), r.freqs, squeeze(r.ga.p_fdr(ch, :, show)), 40, 'linecolor', 'none');
     set(gca, 'clim', [0 1], 'yscale', 'log', 'ytick', round(r.freqs));
+    title(panel_title(c.sensorLabels{ch}));
 end
+end
+
+function t = panel_title(label)
+% 'OPM 5' for an OPM, the label itself for an ERG electrode
+if all(isstrprop(label, 'digit')), t = ['OPM ' label]; else, t = label; end
 end

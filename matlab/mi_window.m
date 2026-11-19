@@ -65,12 +65,13 @@ r.nBinsGroup = nBinsGroup;
 %% plots
 figure('Name', 'MI per participant');
 for ch = 1:nC
-    subplot(4, 5, c.barGrid(ch));
+    subplot(4, 5, c.arrayGrid(ch));   % physical array position (was c.barGrid)
     x = 1:3:3 * nP;
     bar(x, r.mi(ch, :), 0.4); hold on
     sig = r.p(ch, :) < c.alpha;
     text(x(sig), r.mi(ch, sig) + 0.05, '*');
     set(gca, 'xtick', x, 'xticklabel', 1:nP, 'ylim', [0 1.5]);
+    title(sensor_title(c.sensorLabels{ch}));
     if ch == nC, xlabel('Participant'); ylabel('Mutual information (bits)'); end
 end
 
@@ -79,7 +80,12 @@ x = 1:3:3 * nC;
 bar(x, r.mi_ga, 0.4); hold on
 sig = r.p_ga < c.alpha;
 text(x(sig), r.mi_ga(sig) + 0.05, '*');
-set(gca, 'xtick', x, 'xticklabel', 1:nC, 'FontSize', 22);
-xlabel('Channel'); ylabel('Mutual information (bits)');
+set(gca, 'xtick', x, 'xticklabel', c.sensorLabels(1:nC), 'FontSize', 22);
+xlabel('Sensor label'); ylabel('Mutual information (bits)');
 title(sprintf('Grand-average MI, %s, -10 to 120 ms', strrep(signal, '_', ' ')));
+end
+
+function t = sensor_title(label)
+% 'OPM 5' for an OPM, the label itself for an ERG electrode
+if all(isstrprop(label, 'digit')), t = ['OPM ' label]; else, t = label; end
 end

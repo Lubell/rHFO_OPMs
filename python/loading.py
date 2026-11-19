@@ -64,7 +64,7 @@ def merged_epochs(pid, l_freq=None, h_freq=None, tmin=cfg.EPOCH_TMIN, tmax=cfg.E
     if len(opm) != len(eeg):
         raise RuntimeError(f"{pid}: {len(opm)} OPM triggers but {len(eeg)} EEG triggers")
     epochs = opm.add_channels([eeg])
-    epochs.drop(list(range(cfg.N_SKIP_EPOCHS)))
+    epochs.drop(list(range(cfg.N_SKIP_EPOCHS)))   # first 10 flashes; not described in the paper (see config.py)
     if reject:
         epochs.drop(REJECTED[pid])
     return epochs.pick(["mag", "eeg"])
